@@ -31,8 +31,8 @@ function Home() {
     try {
       const data = await getUsersService();
       setUsers(data);
-      console.log(data);
     } catch (err) {
+      // handle error
       console.error(err);
     } finally {
       setIsLoading(false);

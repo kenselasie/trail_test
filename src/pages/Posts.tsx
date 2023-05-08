@@ -34,16 +34,9 @@ function Posts() {
     getUsers();
   }, []);
 
-  React.useEffect(() => {
-    setPosts((posts) =>
-      searchText.length > 0
-        ? posts.filter(
-            (post) =>
-              post.title.toLowerCase().indexOf(searchText.toLowerCase()) > -1
-          )
-        : posts
-    );
-  }, [searchText]);
+  const filteredPosts = posts.filter((post) => {
+    return post.title.toLowerCase().includes(searchText.toLowerCase());
+  });
 
   if (!userId) return <>No Posts For this user</>;
   return (
@@ -56,12 +49,14 @@ function Posts() {
             <input
               type="text"
               value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setSearchText(e.target.value)
+              }
               className="relative outline-none rounded py-3 px-3 w-full bg-white shadow text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:shadow-outline"
               placeholder="Search by title..."
             />
           </div>
-          {posts.map((post) => (
+          {filteredPosts.map((post) => (
             <PostCard
               key={post.id}
               id={post.id}
